@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grievance Status Update — PGMS</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f5f7; margin: 0; padding: 20px; color: #172b4d; }
+    .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+    .header { background: #0f172a; padding: 24px; text-align: center; color: #ffffff; }
+    .header h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 0.5px; }
+    .content { padding: 32px 24px; line-height: 1.6; }
+    .badge { display: inline-block; padding: 6px 14px; font-size: 13px; font-weight: 700; text-transform: uppercase; border-radius: 20px; color: #ffffff; background-color: #2563eb; }
+    .badge.in_progress { background-color: #d97706; }
+    .badge.resolved { background-color: #16a34a; }
+    .badge.rejected { background-color: #dc2626; }
+    .details-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 16px; margin: 20px 0; }
+    .details-row { margin-bottom: 8px; font-size: 14px; }
+    .details-row strong { color: #334155; }
+    .button-container { text-align: center; margin-top: 28px; }
+    .btn { display: inline-block; background-color: #2563eb; color: #ffffff !important; padding: 12px 28px; font-weight: 600; text-decoration: none; border-radius: 6px; font-size: 14px; }
+    .footer { background: #f1f5f9; padding: 16px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Public Grievance Management System</h1>
+    </div>
+    <div class="content">
+      <h2>Hello {{.CitizenName}},</h2>
+      <p>There has been an update regarding your submitted grievance:</p>
+      
+      <div class="details-box">
+        <div class="details-row"><strong>Grievance Title:</strong> {{.GrievanceTitle}}</div>
+        <div class="details-row"><strong>Grievance ID:</strong> <code>{{.GrievanceID}}</code></div>
+        <div class="details-row">
+          <strong>New Status:</strong> 
+          <span class="badge {{.StatusClass}}">{{.StatusText}}</span>
+        </div>
+        {{if .OfficerNote}}
+        <div class="details-row" style="margin-top: 12px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+          <strong>Officer Remark:</strong>
+          <p style="margin: 4px 0 0 0; color: #475569; font-style: italic;">"{{.OfficerNote}}"</p>
+        </div>
+        {{end}}
+      </div>
+
+      <p>You can log in to your PGMS dashboard at any time to track progress or post additional updates.</p>
+
+      <div class="button-container">
+        <a href="{{.GrievanceLink}}" class="btn">View Grievance Details</a>
+      </div>
+    </div>
+    <div class="footer">
+      <p>This is an automated operational notice from PGMS. Please do not reply directly to this email.</p>
+    </div>
+  </div>
+</body>
+</html>

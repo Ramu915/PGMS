@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Department Account Appointed — PGMS-KA</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f5f7; margin: 0; padding: 20px; color: #172b4d; }
+    .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+    .header { background: #064e3b; padding: 24px; text-align: center; color: #ffffff; }
+    .header h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 0.5px; }
+    .header p { margin: 4px 0 0 0; font-size: 12px; opacity: 0.85; }
+    .content { padding: 32px 24px; line-height: 1.6; }
+    .details-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 18px; margin: 20px 0; }
+    .details-row { margin-bottom: 8px; font-size: 14px; }
+    .details-row strong { color: #14532d; }
+    .cred-box { background: #0f172a; color: #f8fafc; padding: 14px; border-radius: 6px; font-family: monospace; font-size: 14px; margin-top: 12px; }
+    .button-container { text-align: center; margin-top: 28px; }
+    .btn { display: inline-block; background-color: #059669; color: #ffffff !important; padding: 12px 28px; font-weight: 600; text-decoration: none; border-radius: 6px; font-size: 14px; }
+    .footer { background: #f1f5f9; padding: 16px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Government of Karnataka — PGMS Portal</h1>
+      <p>Official Public Grievance Department Onboarding</p>
+    </div>
+    <div class="content">
+      <h2>Respected Officer {{.OfficerName}},</h2>
+      <p>You have been officially appointed to manage public grievances under your administrative jurisdiction:</p>
+      
+      <div class="details-box">
+        <div class="details-row"><strong>Official Designation:</strong> {{.Designation}}</div>
+        <div class="details-row"><strong>Department:</strong> {{.DepartmentName}}</div>
+        <div class="details-row"><strong>District:</strong> {{.DistrictName}}</div>
+        <div class="details-row"><strong>Taluk / Jurisdiction:</strong> {{.TalukName}}</div>
+        
+        <div class="cred-box">
+          <div><strong>Official Email:</strong> {{.OfficialEmail}}</div>
+          <div><strong>Temporary Password:</strong> {{.TemporaryPassword}}</div>
+        </div>
+      </div>
+
+      <p>Please log in to your official workspace using your credentials to inspect and update public grievances within your jurisdiction.</p>
+
+      <div class="button-container">
+        <a href="{{.PortalLink}}" class="btn">Access Official Officer Workspace</a>
+      </div>
+    </div>
+    <div class="footer">
+      <p>This is an automated confidential dispatch from the State Administration Portal. Please change your password upon initial login.</p>
+    </div>
+  </div>
+</body>
+</html>
