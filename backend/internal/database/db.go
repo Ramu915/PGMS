@@ -18,11 +18,14 @@ type DB struct {
 	SQL *sql.DB
 }
 
-func Connect(host, port, user, password, dbname, sslmode string) (*DB, error) {
-	connStr := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		host, port, user, password, dbname, sslmode,
-	)
+func Connect(databaseURL, host, port, user, password, dbname, sslmode string) (*DB, error) {
+	connStr := strings.TrimSpace(databaseURL)
+	if connStr == "" {
+		connStr = fmt.Sprintf(
+			"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+			host, port, user, password, dbname, sslmode,
+		)
+	}
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -39,8 +42,8 @@ func Connect(host, port, user, password, dbname, sslmode string) (*DB, error) {
 
 	if err := db.PingContext(ctx); err != nil {
 		_ = db.Close()
-		// Try auto-creating database if missing
-		if strings.Contains(err.Error(), "does not exist") {
+		// Try auto-creating database if missing on localhost
+		if databaseURL == "" && strings.Contains(err.Error(), "does not exist") {
 			log.Printf(" Database '%s' does not exist. Attempting auto-creation...", dbname)
 			adminConnStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=postgres sslmode=%s", host, port, user, password, sslmode)
 			adminDB, adminErr := sql.Open("postgres", adminConnStr)
@@ -66,10 +69,10 @@ func Connect(host, port, user, password, dbname, sslmode string) (*DB, error) {
 				}
 			}
 		}
-		return nil, fmt.Errorf("failed to connect to PostgreSQL database '%s' at %s:%s (user: %s): %w", dbname, host, port, user, err)
+		return nil, fmt.Errorf("failed to connect to PostgreSQL database (target: %s): %w", dbname, err)
 	}
 
-	log.Printf("Connected to PostgreSQL database '%s' at %s:%s\n", dbname, host, port)
+	log.Printf("Connected to PostgreSQL database successfully\n")
 
 	instance := &DB{SQL: db}
 	if err := instance.RunMigrations(); err != nil {
@@ -80,14 +83,29 @@ func Connect(host, port, user, password, dbname, sslmode string) (*DB, error) {
 }
 
 func (d *DB) RunMigrations() error {
-	migrationsDir := "migrations"
-	if _, err := os.Stat(migrationsDir); os.IsNotExist(err) {
-		migrationsDir = "../migrations"
+	candidateDirs := []string{
+		"migrations",
+		"../migrations",
+		"../../migrations",
+		"backend/migrations",
+		"/app/migrations",
 	}
 
-	files, err := filepath.Glob(filepath.Join(migrationsDir, "*.up.sql"))
-	if err != nil || len(files) == 0 {
-		return fmt.Errorf("no SQL migration files found in %s", migrationsDir)
+	var migrationsDir string
+	var files []string
+	for _, dir := range candidateDirs {
+		if _, err := os.Stat(dir); err == nil {
+			matched, err := filepath.Glob(filepath.Join(dir, "*.up.sql"))
+			if err == nil && len(matched) > 0 {
+				migrationsDir = dir
+				files = matched
+				break
+			}
+		}
+	}
+
+	if migrationsDir == "" || len(files) == 0 {
+		return fmt.Errorf("no SQL migration files found in candidate directories: %v", candidateDirs)
 	}
 
 	sort.Strings(files)

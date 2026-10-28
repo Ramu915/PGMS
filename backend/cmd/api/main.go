@@ -34,6 +34,7 @@ func main() {
 
 	// Database connection pool
 	db, err := database.Connect(
+		cfg.DatabaseURL,
 		cfg.DBHost,
 		cfg.DBPort,
 		cfg.DBUser,

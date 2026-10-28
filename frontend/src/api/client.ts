@@ -7,9 +7,13 @@
  */
 
 const getDynamicApiUrl = (): string => {
-  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
-  if (typeof window !== "undefined" && window.location.hostname) {
-    return `http://${window.location.hostname}:8080/api/v1`;
+  const envUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL;
+  if (envUrl) {
+    return envUrl.replace(/\/+$/, "");
+  }
+  if (typeof window !== "undefined" && window.location.hostname && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    // If running in production browser but env var is missing, give a helpful console notice
+    console.warn("[PGMS] VITE_API_URL environment variable is not set. Defaulting to local backend.");
   }
   return "http://localhost:8080/api/v1";
 };

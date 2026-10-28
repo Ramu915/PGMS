@@ -9,6 +9,7 @@ type Config struct {
 	Port               string
 	Env                string
 	AllowedOrigin      string
+	DatabaseURL        string
 	DBHost             string
 	DBPort             string
 	DBUser             string
@@ -33,6 +34,7 @@ func Load() *Config {
 		Port:               getEnv("PORT", "8080"),
 		Env:                getEnv("ENV", "development"),
 		AllowedOrigin:      getEnv("ALLOWED_ORIGIN", "http://localhost:3000"),
+		DatabaseURL:        getEnv("DATABASE_URL", ""),
 		DBHost:             getEnv("DB_HOST", "localhost"),
 		DBPort:             getEnv("DB_PORT", "5432"),
 		DBUser:             getEnv("DB_USER", "postgres"),
