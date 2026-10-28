@@ -28,7 +28,8 @@ COPY --from=builder /pgms-api /app/pgms-api
 COPY --from=builder /app/migrations /app/migrations
 COPY --from=builder /app/templates /app/templates
 
-# Ensure upload directory exists
+# Ensure upload directory exists and has sample assets
+COPY --from=builder /app/uploads /app/uploads
 RUN mkdir -p /app/uploads
 
 EXPOSE 8080

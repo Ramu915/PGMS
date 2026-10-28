@@ -261,6 +261,21 @@ function GrievanceDetail() {
                 <p className="text-sm leading-relaxed text-foreground whitespace-pre-wrap">{item.description}</p>
               </div>
 
+              {item.address && (
+                <div className="flex items-start gap-2.5 rounded-lg border border-border/60 bg-muted/20 p-3.5 text-xs sm:text-sm">
+                  <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-foreground">Location Address:</div>
+                    <div className="text-muted-foreground mt-0.5 leading-relaxed">{item.address}</div>
+                    {item.landmark && (
+                      <div className="mt-1 text-xs text-muted-foreground">
+                        Landmark: <span className="font-medium text-foreground">{item.landmark}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {images.length > 0 && (
                 <div>
                   <h3 className="font-display text-lg mb-3">Attached Proof / Images</h3>

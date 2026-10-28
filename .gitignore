@@ -38,6 +38,9 @@ frontend/eng.traineddata
 # User uploads & temporary files
 **/uploads/*
 !**/uploads/.gitkeep
+!backend/uploads/*.jpeg
+!backend/uploads/*.jpg
+!backend/uploads/*.png
 uploads/
 tmp/
 
