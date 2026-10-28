@@ -12,8 +12,8 @@ const getDynamicApiUrl = (): string => {
     return envUrl.replace(/\/+$/, "");
   }
   if (typeof window !== "undefined" && window.location.hostname && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
-    // If running in production browser but env var is missing, give a helpful console notice
-    console.warn("[PGMS] VITE_API_URL environment variable is not set. Defaulting to local backend.");
+    // When deployed online on Netlify or custom domain, route directly to the live Render backend
+    return "https://pgms-backend-9l8n.onrender.com/api/v1";
   }
   return "http://localhost:8080/api/v1";
 };
